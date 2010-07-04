@@ -8,8 +8,8 @@ CONFIG += debug
 DEPENDPATH += . source
 INCLUDEPATH += . source
 
-SOURCES += source/*
-HEADERS += source/*.h
+SOURCES += source/*.cpp	source/googlemaps/*.cpp	source/geom/*.cpp
+HEADERS += source/*.h	source/googlemaps/*.h 	source/geom/*.h
 
 # Output
 OBJECTS_DIR += .build
