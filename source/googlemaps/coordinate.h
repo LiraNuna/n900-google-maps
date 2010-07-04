@@ -1,20 +1,19 @@
-#include "bitmapcoordinate.h"
-
 #ifndef COORDINATE_H_
 #define COORDINATE_H_
 
 namespace googlemaps {
 
+class BitmapCoordinate;
+
 class Coordinate
 {
 	public:
-		Coordinate(double lat, double lng, double alt = 0.0);
+		Coordinate(double lat, double lng);
 
-		BitmapCoordinate toBitmapCoordinate();
+		Coordinate(const BitmapCoordinate &coord);
 
 		double latitude;
 		double longitude;
-		double altitude;
 };
 
 }
