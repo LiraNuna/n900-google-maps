@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = n900-google-maps
 
-QT += network
+QT += network opengl
 CONFIG += debug
 
 # Input
