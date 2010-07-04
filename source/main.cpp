@@ -21,9 +21,9 @@ int main(int argc, char* argv[])
 	diskCache->setCacheDirectory("cache");
 	man->setCache(diskCache);
 
-	QNetworkRequest request(QUrl(QString("http://qt.nokia.com")));
+	QNetworkRequest request(QUrl("http://mt1.google.com/vt/lyrs=m@128&x=1310&y=3167&z=13"));
 	request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
-	man->get(QNetworkRequest(QUrl("http://mt1.google.com/vt/lyrs=m@128&x=1310&y=3167&z=13")));
+	man->get(request);
 
 	return app.exec();
 }
