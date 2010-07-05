@@ -4,9 +4,12 @@
 #include <QNetworkDiskCache>
 #include <QImage>
 
-#include <cmath>
-
 #include "test.h"
+
+#include "googlemaps/coordinate.h"
+#include "googlemaps/bitmapcoordinate.h"
+
+#include <cstdio>
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +17,7 @@ int main(int argc, char* argv[])
 
 	Listener test;
 
-	QNetworkAccessManager* man = new QNetworkAccessManager();
+	QNetworkAccessManager* man = new QNetworkAccessManager(&app);
 	QObject::connect(man, SIGNAL(finished(QNetworkReply*)), &test, SLOT(finishedDownload(QNetworkReply*)));
 
 	QNetworkDiskCache *diskCache = new QNetworkDiskCache();

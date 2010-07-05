@@ -10,14 +10,10 @@ class Listener : public QObject
 
 	public slots:
 		void finishedDownload(QNetworkReply* reply) {
+			printf("Network reply!\n");
 			GoogleMapWidget* map = new GoogleMapWidget();
-			map->setFixedSize(800, 480);
+			map->showFullScreen();
 			map->show();
-
-			if(reply->attribute(QNetworkRequest::SourceIsFromCacheAttribute).toBool())
-				printf("Reply is from cache\n");
-
-			printf("%s\n", reply->rawHeader("Cache-Control").data());
 
 			map->tile = QImage::fromData(reply->readAll());
 		}
