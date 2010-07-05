@@ -8,7 +8,7 @@ namespace googlemaps
 {
 
 BitmapCoordinate::BitmapCoordinate(int x, int y, int zoom):
-	Point(x, y), zoom(zoom)
+	QPoint(x, y), zoom(zoom)
 {
 
 }
@@ -18,8 +18,8 @@ BitmapCoordinate::BitmapCoordinate(const googlemaps::Coordinate &coord, int zoom
 {
 	double e = sin(coord.latitude * (M_PI / 180.0));
 
-	x = ceil(origin() + coord.longitude * pixelsPerDegree());
-	y = ceil(origin() + 0.5 * -log((1 + e) / (1 - e)) * pixelsPerRadian());
+	rx() = ceil(origin() + coord.longitude * pixelsPerDegree());
+	ry() = ceil(origin() + 0.5 * -log((1 + e) / (1 - e)) * pixelsPerRadian());
 }
 
 double BitmapCoordinate::pixelsPerDegree() const

@@ -1,14 +1,14 @@
 #ifndef BITMAPCOORDINATE_H_
 #define BITMAPCOORDINATE_H_
 
-#include "geom/point.h"
+#include <QPoint>
 
 namespace googlemaps
 {
 
 class Coordinate;
 
-class BitmapCoordinate : public geom::Point
+class BitmapCoordinate : public QPoint
 {
 	public:
 		BitmapCoordinate(int x, int y, int zoom);
