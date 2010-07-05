@@ -14,7 +14,7 @@ void GoogleMapWidget::paintGL()
 {
 	QPainter painter(this);
 
-	painter.drawImage(QRect(translation, translation + QPoint(256, 256)), tile);
+	painter.drawImage(tile.rect().translated(translation), tile);
 }
 
 void GoogleMapWidget::mousePressEvent(QMouseEvent* event)

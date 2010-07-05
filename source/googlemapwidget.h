@@ -18,10 +18,6 @@ class GoogleMapWidget : public QGLWidget
 		QPoint dragStart;
 
 	protected:
-		void initializeGL();
-
-		void resizeGL(int width, int height);
-
 		void paintGL();
 
 		void mousePressEvent(QMouseEvent* event);
