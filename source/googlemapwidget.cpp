@@ -3,9 +3,11 @@
 #include <QRect>
 #include <QPoint>
 
+#include <cstdio>
+#include <sys/time.h>
+
 GoogleMapWidget::GoogleMapWidget(QWidget *parent):
-	QGLWidget(parent),
-	tile(1, 1, QImage::Format_ARGB32)
+	QGLWidget(parent)
 {
 
 }
@@ -14,7 +16,12 @@ void GoogleMapWidget::paintGL()
 {
 	QPainter painter(this);
 
-	painter.drawImage(tile.rect().translated(translation), tile);
+	for(int x=0; x<6; ++x) {
+		for(int y=0; y<6; ++y) {
+			QRect rect = tile.rect().translated(x * 256, y * 256);
+			painter.drawImage(rect.translated(translation), tile);
+		}
+	}
 }
 
 void GoogleMapWidget::mousePressEvent(QMouseEvent* event)
@@ -27,5 +34,5 @@ void GoogleMapWidget::mouseMoveEvent(QMouseEvent* event)
 	translation += event->pos() - dragStart;
 	dragStart = event->pos();
 
-	updateGL();
+	glDraw();
 }

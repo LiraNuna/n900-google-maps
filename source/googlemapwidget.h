@@ -1,6 +1,7 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <QPoint>
+#include <QImage>
 
 #ifndef GOOGLEMAPWIDGET_H_
 #define GOOGLEMAPWIDGET_H_
@@ -20,9 +21,9 @@ class GoogleMapWidget : public QGLWidget
 	protected:
 		void paintGL();
 
-		void mousePressEvent(QMouseEvent* event);
+		void mousePressEvent(QMouseEvent* );
 
-		void mouseMoveEvent(QMouseEvent* event);
+		void mouseMoveEvent(QMouseEvent* );
 };
 
 #endif
