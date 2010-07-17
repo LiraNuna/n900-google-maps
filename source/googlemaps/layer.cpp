@@ -40,7 +40,7 @@ void Layer::downloadFinished(QNetworkReply* reply)
 	const Tile &tile = pendingTiles.value(url, Tile(BitmapCoordinate(0, 0, 0)));
 
 		// Keep the image in cache
-	allTiles.insert(tile, QImage::fromData(reply->readAll()));
+	tiles.insert(tile, QImage::fromData(reply->readAll()));
 
 		// No more a pending tile
 	pendingTiles.remove(url);
@@ -52,8 +52,8 @@ void Layer::downloadFinished(QNetworkReply* reply)
 QImage Layer::getBitmap(const Tile &tile)
 {
 		// Image had been cached, return it
-	if(allTiles.contains(tile))
-		return allTiles[tile];
+	if(tiles.contains(tile))
+		return tiles[tile];
 
 		// Image had not yet been loaded, send a request
 	QUrl tileUrl = tile.url();

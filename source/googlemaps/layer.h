@@ -25,10 +25,9 @@ class Layer : public QObject
 		QString name;
 		bool realTime;
 
-		QList<Tile *> tiles;
 		QNetworkAccessManager* network;
 
-		QHash<Tile, QImage> allTiles;
+		QHash<Tile, QImage> tiles;
 		QHash<QUrl, Tile> pendingTiles;
 
 	protected slots:
