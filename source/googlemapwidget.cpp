@@ -1,10 +1,4 @@
 #include "googlemapwidget.h"
-#include <QPainter>
-#include <QRect>
-#include <QPoint>
-
-#include <cstdio>
-#include <sys/time.h>
 
 GoogleMapWidget::GoogleMapWidget(QWidget *parent):
 	QGLWidget(parent)
@@ -22,6 +16,8 @@ void GoogleMapWidget::paintGL()
 			painter.drawImage(rect.translated(translation), tile);
 		}
 	}
+
+	painter.end();
 }
 
 void GoogleMapWidget::mousePressEvent(QMouseEvent* event)
@@ -34,5 +30,5 @@ void GoogleMapWidget::mouseMoveEvent(QMouseEvent* event)
 	translation += event->pos() - dragStart;
 	dragStart = event->pos();
 
-	glDraw();
+	update();
 }

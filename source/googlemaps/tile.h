@@ -1,8 +1,8 @@
 #ifndef TILE_H_
 #define TILE_H_
 
+#include <QtCore>
 #include <QImage>
-#include <QUrl>
 #include "bitmapcoordinate.h"
 
 namespace googlemaps
@@ -21,9 +21,9 @@ class Tile : public QImage
 			return idx;
 		}
 
-		QString id();
+		QString id() const;
 
-		QUrl url();
+		QUrl url() const;
 
 	protected:
 		BitmapCoordinate idx;

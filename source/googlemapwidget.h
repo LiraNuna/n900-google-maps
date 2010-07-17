@@ -1,10 +1,8 @@
-#include <QGLWidget>
-#include <QMouseEvent>
-#include <QPoint>
-#include <QImage>
-
 #ifndef GOOGLEMAPWIDGET_H_
 #define GOOGLEMAPWIDGET_H_
+
+#include <QtCore>
+#include <QtOpenGL>
 
 class GoogleMapWidget : public QGLWidget
 {
@@ -18,7 +16,7 @@ class GoogleMapWidget : public QGLWidget
 		QPoint translation;
 		QPoint dragStart;
 
-	protected:
+	protected slots:
 		void paintGL();
 
 		void mousePressEvent(QMouseEvent* );

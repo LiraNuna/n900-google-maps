@@ -17,7 +17,7 @@ Tile::Tile(int x, int y, int zoom):
 
 }
 
-QString Tile::id()
+QString Tile::id() const
 {
 	QString id;
 
@@ -32,7 +32,7 @@ QString Tile::id()
 	return id;
 }
 
-QUrl Tile::url()
+QUrl Tile::url() const
 {
 	/*
 	 * %1 = Layer name and options (TODO)
