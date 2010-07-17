@@ -1,6 +1,4 @@
+cache
 .build
-.cproject
-.project
 Makefile
 n900-google-maps
-
