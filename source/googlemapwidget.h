@@ -16,12 +16,20 @@ class GoogleMapWidget : public QGLWidget
 		QPoint translation;
 		QPoint dragStart;
 
+		QTimer timer;
+
 	protected slots:
 		void paintGL();
 
 		void mousePressEvent(QMouseEvent* );
 
 		void mouseMoveEvent(QMouseEvent* );
+
+		void initializeGL();
+
+	private:
+		GLuint shaderProgram;
+		GLuint textureId;
 };
 
 #endif

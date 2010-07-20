@@ -12,9 +12,10 @@ class Listener : public QObject
 		void finishedDownload(QNetworkReply* reply) {
 			printf("Network reply!\n");
 			GoogleMapWidget* map = new GoogleMapWidget();
-			map->showFullScreen();
-			map->show();
 
 			map->tile = QImage::fromData(reply->readAll());
+
+			map->setFixedSize(800, 480);
+			map->show();
 		}
 };
