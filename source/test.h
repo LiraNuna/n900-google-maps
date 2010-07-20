@@ -15,7 +15,6 @@ class Listener : public QObject
 
 			map->tile = QImage::fromData(reply->readAll());
 
-			map->setFixedSize(800, 480);
-			map->show();
+			map->showFullScreen();
 		}
 };
