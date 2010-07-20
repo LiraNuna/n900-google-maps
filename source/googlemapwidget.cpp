@@ -14,7 +14,7 @@ void GoogleMapWidget::initializeGL()
 	const char* fragShaderSrc = "\
 		uniform sampler2D textureId;\
 		\
-		varying lowp vec2 texCoords;\
+		varying vec2 texCoords;\
 		\
 		void main(void)\
 		{\
@@ -46,9 +46,38 @@ void GoogleMapWidget::initializeGL()
 	glShaderSource(fragShaderId, 1, &fragShaderSrc, NULL);
 	glCompileShader(fragShaderId);
 
+//v-------------------------------v//
+	GLint bShaderCompiled;
+	glGetShaderiv(fragShaderId, GL_COMPILE_STATUS, &bShaderCompiled);
+
+	if(!bShaderCompiled) {
+		int i32InfoLogLength, i32CharsWritten;
+		glGetShaderiv(fragShaderId, GL_INFO_LOG_LENGTH, &i32InfoLogLength);
+
+		char* pszInfoLog = new char[i32InfoLogLength];
+		glGetShaderInfoLog(fragShaderId, i32InfoLogLength, &i32CharsWritten, pszInfoLog);
+
+		printf("Failed to compile fragment shader: %s\n", pszInfoLog);
+		delete [] pszInfoLog;
+	}
+//^-------------------------------^//
+
 	GLuint vertShaderId = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertShaderId, 1, &vertShaderSrc, NULL);
 	glCompileShader(vertShaderId);
+
+//v-------------------------------v//
+    glGetShaderiv(vertShaderId, GL_COMPILE_STATUS, &bShaderCompiled);
+	if(!bShaderCompiled)
+	{
+		int i32InfoLogLength, i32CharsWritten;
+		glGetShaderiv(vertShaderId, GL_INFO_LOG_LENGTH, &i32InfoLogLength);
+		char* pszInfoLog = new char[i32InfoLogLength];
+        glGetShaderInfoLog(vertShaderId, i32InfoLogLength, &i32CharsWritten, pszInfoLog);
+		printf("Failed to compile vertex shader: %s\n", pszInfoLog);
+		delete [] pszInfoLog;
+	}
+//^-------------------------------^//
 
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, fragShaderId);
@@ -56,6 +85,20 @@ void GoogleMapWidget::initializeGL()
 	glBindAttribLocation(shaderProgram, 0, "position");
     glBindAttribLocation(shaderProgram, 1, "texture");
 	glLinkProgram(shaderProgram);
+
+//v-------------------------------v//
+	GLint bLinked;
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &bLinked);
+	if (!bLinked)
+	{
+		int ui32InfoLogLength, ui32CharsWritten;
+		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &ui32InfoLogLength);
+		char* pszInfoLog = new char[ui32InfoLogLength];
+		glGetProgramInfoLog(shaderProgram, ui32InfoLogLength, &ui32CharsWritten, pszInfoLog);
+		printf("Failed to link program: %s\n", pszInfoLog);
+		delete [] pszInfoLog;
+	}
+//^-------------------------------^//
 
 	glUseProgram(shaderProgram);
 
@@ -109,3 +152,4 @@ void GoogleMapWidget::mouseMoveEvent(QMouseEvent* event)
 
 	glDraw();
 }
+
