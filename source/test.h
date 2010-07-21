@@ -16,6 +16,7 @@ class Listener : public QObject
 			map->tile = QImage::fromData(reply->readAll());
 
 #ifdef Q_WS_MAEMO_5
+			map->setAttribute(Qt::WA_Maemo5AutoOrientation, true);
 			map->showFullScreen();
 #else
 			map->setFixedSize(800, 480);
