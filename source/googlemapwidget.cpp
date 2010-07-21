@@ -11,36 +11,38 @@ void GoogleMapWidget::initializeGL()
 {
 	glViewport(0, 0, 800, 480);
 
-	const char* fragShaderSrc = "\
-		uniform sampler2D textureId;\
-		\
-		varying vec2 texCoords;\
-		\
-		void main(void)\
-		{\
-			gl_FragColor = texture2D(textureId, texCoords);\
-		}";
+	const char* fragShaderSrc =
+		"uniform sampler2D textureId;"
+#ifdef Q_WS_MAEMO5
+		"varying lowp vec2 texCoords;"
+#else
+		"varying vec2 texCoords;"
+#endif
+		"void main(void)"
+		"{"
+			"gl_FragColor = texture2D(textureId, texCoords);"
+		"}";
 
-	const char* vertShaderSrc = "\
-		attribute vec4	position;\
-		attribute vec4	texture;\
-		\
-		uniform vec4	translation;\
-		\
-		varying vec2	texCoords;\
-		\
-		const mat4 modelViewProjectionMatrix = mat4(\
-			2.0/(800.0 - 0.0), 0.0, 0.0, -(800.0 + 0.0)/(800.0 - 0.0),\
-			0.0, 2.0/(0.0 - 480.0), 0.0, -(0.0 + 480.0)/(0.0 - 480.0),\
-			0.0, 0.0, -2.0/(1.0 - 0.0), -(1.0 + 0.0)/(1.0 - 0.0),\
-			0.0, 0.0, 0.0, 1.0\
-		);\
-		\
-		void main(void)\
-		{\
-			gl_Position = (position + translation) * modelViewProjectionMatrix;\
-			texCoords = texture.st;\
-		}";
+	const char* vertShaderSrc =
+		"attribute vec4	position;"
+		"attribute vec4	texture;"
+
+		"uniform vec4	translation;"
+
+		"varying vec2	texCoords;"
+
+		"const mat4 modelViewProjectionMatrix = mat4("
+			"2.0/(800.0 - 0.0), 0.0, 0.0, -(800.0 + 0.0)/(800.0 - 0.0),"
+			"0.0, 2.0/(0.0 - 480.0), 0.0, -(0.0 + 480.0)/(0.0 - 480.0),"
+			"0.0, 0.0, -2.0/(1.0 - 0.0), -(1.0 + 0.0)/(1.0 - 0.0),"
+			"0.0, 0.0, 0.0, 1.0"
+		");"
+
+		"void main(void)"
+		"{"
+			"gl_Position = (position + translation) * modelViewProjectionMatrix;"
+			"texCoords = texture.st;"
+		"}";
 
 	GLuint fragShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragShaderId, 1, &fragShaderSrc, NULL);
