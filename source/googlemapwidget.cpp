@@ -11,7 +11,7 @@ void GoogleMapWidget::initializeGL()
 {
 	const char* fragShaderSrc =
 		"uniform sampler2D textureId;"
-#ifdef Q_WS_MAEMO5
+#ifdef Q_WS_MAEMO_5
 		"varying lowp vec2 texCoords;"
 #else
 		"varying vec2 texCoords;"
