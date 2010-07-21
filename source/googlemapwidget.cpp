@@ -9,8 +9,6 @@ GoogleMapWidget::GoogleMapWidget(QWidget *parent):
 
 void GoogleMapWidget::initializeGL()
 {
-	glViewport(0, 0, 800, 480);
-
 	const char* fragShaderSrc =
 		"uniform sampler2D textureId;"
 #ifdef Q_WS_MAEMO5
@@ -27,14 +25,15 @@ void GoogleMapWidget::initializeGL()
 		"attribute vec4	position;"
 		"attribute vec4	texture;"
 
+		"uniform vec2	size;"
 		"uniform vec4	translation;"
 
 		"varying vec2	texCoords;"
 
-		"const mat4 modelViewProjectionMatrix = mat4("
-			"2.0/(800.0 - 0.0), 0.0, 0.0, -(800.0 + 0.0)/(800.0 - 0.0),"
-			"0.0, 2.0/(0.0 - 480.0), 0.0, -(0.0 + 480.0)/(0.0 - 480.0),"
-			"0.0, 0.0, -2.0/(1.0 - 0.0), -(1.0 + 0.0)/(1.0 - 0.0),"
+		"mat4 modelViewProjectionMatrix = mat4("
+			"2.0 / size.x, 0.0, 0.0, -1.0,"
+			"0.0, -2.0 / size.y, 0.0, 1.0,"
+			"0.0, 0.0,-2.0,-1.0,"
 			"0.0, 0.0, 0.0, 1.0"
 		");"
 
@@ -129,6 +128,13 @@ void GoogleMapWidget::initializeGL()
 	textureId = bindTexture(tile);
 
 	glUniform4f(glGetUniformLocation(shaderProgram, "translation"), 0, 0, 0, 0);
+}
+
+void GoogleMapWidget::resizeGL(int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	glUniform2f(glGetUniformLocation(shaderProgram, "size"), width, height);
 }
 
 void GoogleMapWidget::paintGL()
