@@ -6,7 +6,7 @@ maemo5 {
     DEFINES += Q_WS_MAEMO_5
 }
 
-unix {
+unix:!maemo5 {
 	CONFIG += debug
 	DEFINES += GL_GLEXT_PROTOTYPES
 }
