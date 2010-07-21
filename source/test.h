@@ -15,6 +15,11 @@ class Listener : public QObject
 
 			map->tile = QImage::fromData(reply->readAll());
 
+#ifdef Q_WS_MAEMO_5
 			map->showFullScreen();
+#else
+			map->setFixedSize(800, 480);
+			map->show();
+#endif
 		}
 };
