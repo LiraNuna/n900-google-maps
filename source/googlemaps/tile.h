@@ -22,6 +22,18 @@ class Tile
 			return idx;
 		}
 
+		inline int x() const {
+			return idx.x();
+		}
+
+		inline int y() const {
+			return idx.y();
+		}
+
+		inline int zoom() const {
+			return idx.zoom();
+		}
+
 		QString id() const;
 
 		QUrl url() const;

@@ -21,7 +21,12 @@ class BitmapCoordinate : public QPoint
 
 		int origin() const;
 
-		int zoom;
+		inline int zoom() const {
+			return _zoom;
+		}
+
+	protected:
+		int _zoom;
 };
 
 }

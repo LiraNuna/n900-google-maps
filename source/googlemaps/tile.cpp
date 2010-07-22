@@ -6,7 +6,7 @@ namespace googlemaps
 const unsigned int Tile::SIZE = 256;
 
 Tile::Tile(const BitmapCoordinate &coord):
-	idx(coord.x() / SIZE, coord.y() / SIZE, coord.zoom)
+	idx(coord.x() / SIZE, coord.y() / SIZE, coord.zoom())
 {
 
 }
@@ -37,7 +37,7 @@ QString Tile::id() const
 	QString id;
 
 	QPoint copy = idx;
-	for(int i=0; i<idx.zoom; ++i) {
+	for(int i=0; i<idx.zoom(); ++i) {
 		id.insert(0, "tvuw"[(copy.x() & 1) + ((copy.y() & 1) * 2)]);
 
 		copy.rx() >>= 1;
@@ -63,7 +63,7 @@ QUrl Tile::url() const
 			// Y coordinate of tile
 		.arg(idx.y())
 			// Zoom
-		.arg(idx.zoom);
+		.arg(idx.zoom());
 }
 
 }
