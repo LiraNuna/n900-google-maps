@@ -2,13 +2,12 @@
 #define TILE_H_
 
 #include <QtCore>
-#include <QImage>
 #include "bitmapcoordinate.h"
 
 namespace googlemaps
 {
 
-class Tile : public QImage
+class Tile
 {
 	public:
 		static const unsigned int SIZE;
