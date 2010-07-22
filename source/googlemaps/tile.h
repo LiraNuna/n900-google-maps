@@ -16,6 +16,8 @@ class Tile
 
 		Tile(int x, int y, int zoom);
 
+		static Tile fromId(const QString &id);
+
 		inline const BitmapCoordinate &index() {
 			return idx;
 		}

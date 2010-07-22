@@ -1,9 +1,10 @@
-#include <QtCore>
-#include <QtNetwork>
-#include "tile.h"
-
 #ifndef LAYER_H_
 #define LAYER_H_
+
+#include <QtCore>
+#include <QtNetwork>
+#include <QImage>
+#include "tile.h"
 
 namespace googlemaps
 {
@@ -15,9 +16,7 @@ class Layer : public QObject
 	public:
 		Layer(const QString &name, bool realTime = false);
 
-		void draw(QPainter *paintDevice, const Coordinate &center);
-
-		QImage getBitmap(const Tile &tile);
+		QImage getBitmap(const QString &tileId);
 
 	protected:
 		void fillTilesBitmap();
@@ -27,8 +26,8 @@ class Layer : public QObject
 
 		QNetworkAccessManager* network;
 
-		QHash<Tile, QImage> tiles;
-		QHash<QUrl, Tile> pendingTiles;
+		QHash<QString, QImage> tiles;
+		QHash<QUrl, QString> pendingTiles;
 
 	protected slots:
 		void downloadFinished(QNetworkReply* reply);

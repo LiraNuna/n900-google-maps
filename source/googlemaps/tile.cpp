@@ -17,6 +17,21 @@ Tile::Tile(int x, int y, int zoom):
 
 }
 
+Tile Tile::fromId(const QString &id)
+{
+	int x = 0;
+	int y = 0;
+
+	for(int i=0; i<id.length(); ++i) {
+		char c = id[i].toAscii() - 't';
+
+		x = (x << 1) | (c & 1);
+		y = (y << 1) | ((c & 3) >> 1);
+	}
+
+	return Tile(x, y, id.length());
+}
+
 QString Tile::id() const
 {
 	QString id;

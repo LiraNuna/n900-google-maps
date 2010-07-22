@@ -6,12 +6,6 @@ uint qHash(const QUrl &url)
 	return qHash(url.toString());
 }
 
-uint qHash(const googlemaps::Tile &tile)
-{
-		// Since a URL for the tile is unique, use that as a hash
-	return qHash(tile.url());
-}
-
 namespace googlemaps
 {
 
@@ -37,26 +31,26 @@ Layer::Layer(const QString &name, bool realTime):
 void Layer::downloadFinished(QNetworkReply* reply)
 {
 	const QUrl &url = reply->url();
-	const Tile &tile = pendingTiles.value(url, Tile(BitmapCoordinate(0, 0, 0)));
+	const QString &tileId = pendingTiles.value(url);
 
 		// Keep the image in cache
-	tiles.insert(tile, QImage::fromData(reply->readAll()));
+	tiles.insert(tileId, QImage::fromData(reply->readAll()));
 
 		// No more a pending tile
 	pendingTiles.remove(url);
 
 		// Notify listeners that a tile had been updated.
-	emit tileUpdated(tile);
+	emit tileUpdated(Tile::fromId(tileId));
 }
 
-QImage Layer::getBitmap(const Tile &tile)
+QImage Layer::getBitmap(const QString &tileId)
 {
 		// Image had been cached, return it
-	if(tiles.contains(tile))
-		return tiles[tile];
+	if(tiles.contains(tileId))
+		return tiles[tileId];
 
 		// Image had not yet been loaded, send a request
-	QUrl tileUrl = tile.url();
+	QUrl tileUrl = Tile::fromId(tileId).url();
 	QNetworkRequest request = QNetworkRequest(tileUrl);
 
 		// Unless the layer is a realtime one, prefer cache
@@ -64,7 +58,7 @@ QImage Layer::getBitmap(const Tile &tile)
 			realTime ? QNetworkRequest::AlwaysNetwork : QNetworkRequest::PreferCache);
 
 		// Keep the pending tile for the slot
-	pendingTiles.insert(tileUrl, tile);
+	pendingTiles.insert(tileUrl, tileId);
 
 		// Perform the request. If it's cached, the cached file will be loaded.
 	network->get(request);
