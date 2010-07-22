@@ -2,8 +2,6 @@
 #include "coordinate.h"
 #include "bitmapcoordinate.h"
 
-namespace googlemaps {
-
 Coordinate::Coordinate(double lat, double lng):
 	latitude(lat), longitude(lng)
 {
@@ -17,6 +15,4 @@ Coordinate::Coordinate(const BitmapCoordinate &coord)
 
 	latitude  = (2 * atan(exp(-x)) - (M_PI / 2)) / (M_PI / 180);
 	longitude = y;
-}
-
 }

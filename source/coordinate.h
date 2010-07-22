@@ -1,8 +1,6 @@
 #ifndef COORDINATE_H_
 #define COORDINATE_H_
 
-namespace googlemaps {
-
 class BitmapCoordinate;
 
 class Coordinate
@@ -15,7 +13,5 @@ class Coordinate
 		double latitude;
 		double longitude;
 };
-
-}
 
 #endif

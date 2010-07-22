@@ -4,16 +4,13 @@
 #include "bitmapcoordinate.h"
 #include "tile.h"
 
-namespace googlemaps
-{
-
 BitmapCoordinate::BitmapCoordinate(int x, int y, int zoom):
 	QPoint(x, y), _zoom(zoom)
 {
 
 }
 
-BitmapCoordinate::BitmapCoordinate(const googlemaps::Coordinate &coord, int zoom):
+BitmapCoordinate::BitmapCoordinate(const Coordinate &coord, int zoom):
 	_zoom(zoom)
 {
 	double e = sin(coord.latitude * (M_PI / 180.0));
@@ -35,6 +32,4 @@ double BitmapCoordinate::pixelsPerRadian() const
 int BitmapCoordinate::origin() const
 {
 	return (Tile::SIZE / 2) << zoom();
-}
-
 }

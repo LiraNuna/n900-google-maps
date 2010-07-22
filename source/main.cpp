@@ -6,8 +6,8 @@
 
 #include "test.h"
 
-#include "googlemaps/coordinate.h"
-#include "googlemaps/bitmapcoordinate.h"
+#include "coordinate.h"
+#include "bitmapcoordinate.h"
 
 #include <cstdio>
 

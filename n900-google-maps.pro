@@ -15,8 +15,8 @@ unix:!maemo5 {
 DEPENDPATH += . source
 INCLUDEPATH += . source
 
-SOURCES += source/*.cpp	source/googlemaps/*.cpp
-HEADERS += source/*.h	source/googlemaps/*.h
+SOURCES += source/*.cpp
+HEADERS += source/*.h
 
 # Output
 OBJECTS_DIR += .build

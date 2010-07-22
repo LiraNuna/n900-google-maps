@@ -6,9 +6,6 @@ uint qHash(const QUrl &url)
 	return qHash(url.toString());
 }
 
-namespace googlemaps
-{
-
 Layer::Layer(const QString &name, bool realTime):
 	QObject(NULL),
 	name(name), realTime(realTime)
@@ -65,6 +62,4 @@ QImage Layer::getBitmap(const QString &tileId)
 
 		// Send a blank image (will return as QImage.isNull() == true)
 	return QImage();
-}
-
 }

@@ -1,12 +1,8 @@
 #ifndef BITMAPCOORDINATE_H_
 #define BITMAPCOORDINATE_H_
 
+#include "coordinate.h"
 #include <QPoint>
-
-namespace googlemaps
-{
-
-class Coordinate;
 
 class BitmapCoordinate : public QPoint
 {
@@ -28,7 +24,5 @@ class BitmapCoordinate : public QPoint
 	protected:
 		int _zoom;
 };
-
-}
 
 #endif

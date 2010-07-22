@@ -1,8 +1,5 @@
 #include "tile.h"
 
-namespace googlemaps
-{
-
 const unsigned int Tile::SIZE = 256;
 
 Tile::Tile(const BitmapCoordinate &coord):
@@ -64,6 +61,4 @@ QUrl Tile::url() const
 		.arg(idx.y())
 			// Zoom
 		.arg(idx.zoom());
-}
-
 }

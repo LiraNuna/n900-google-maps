@@ -4,9 +4,6 @@
 #include <QtCore>
 #include "bitmapcoordinate.h"
 
-namespace googlemaps
-{
-
 class Tile
 {
 	public:
@@ -41,7 +38,5 @@ class Tile
 	protected:
 		BitmapCoordinate idx;
 };
-
-}
 
 #endif

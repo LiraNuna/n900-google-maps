@@ -6,9 +6,6 @@
 #include <QImage>
 #include "tile.h"
 
-namespace googlemaps
-{
-
 class Layer : public QObject
 {
 	Q_OBJECT
@@ -35,7 +32,5 @@ class Layer : public QObject
 	signals:
 		void tileUpdated(const Tile &);
 };
-
-}
 
 #endif
