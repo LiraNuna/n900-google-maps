@@ -18,9 +18,9 @@ class GoogleMapWidget : public QGLWidget
 		QPoint translation;
 		QPoint dragStart;
 
-		QList<Layer> layerList;
-
 		QGLShaderProgram renderer;
+
+		QVector<QVector2D > vbo;
 
 	protected slots:
 		void initializeGL();
@@ -35,6 +35,11 @@ class GoogleMapWidget : public QGLWidget
 
 	private:
 		GLuint textureId;
+
+		int gridWidth;
+		int gridHeight;
+
+		QVector<QVector2D > generateTile(const QVector2D &position);
 };
 
 #endif

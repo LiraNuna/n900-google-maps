@@ -1,6 +1,6 @@
 #include "tile.h"
 
-const unsigned int Tile::SIZE = 256;
+const int Tile::SIZE = 256;
 
 Tile::Tile(const BitmapCoordinate &coord):
 	idx(coord.x() / SIZE, coord.y() / SIZE, coord.zoom())

@@ -7,7 +7,7 @@
 class Tile
 {
 	public:
-		static const unsigned int SIZE;
+		static const int SIZE;
 
 		Tile(const BitmapCoordinate &coord);
 
