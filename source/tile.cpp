@@ -35,7 +35,7 @@ QString Tile::id() const
 
 	QPoint copy = idx;
 	for(int i=0; i<idx.zoom(); ++i) {
-		id.insert(0, "tvuw"[(copy.x() & 1) + ((copy.y() & 1) * 2)]);
+		id.insert(0, "tuvw"[(copy.x() & 1) + ((copy.y() & 1) * 2)]);
 
 		copy.rx() >>= 1;
 		copy.ry() >>= 1;
