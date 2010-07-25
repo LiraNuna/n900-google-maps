@@ -1,32 +1,21 @@
-#include <QApplication>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkDiskCache>
-#include <QImage>
+#include <QtCore>
+#include <QtNetwork>
 
-#include "test.h"
-
-#include "coordinate.h"
-#include "bitmapcoordinate.h"
-
-#include <cstdio>
+#include "googlemapwidget.h"
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	Listener test;
+	GoogleMapWidget map;
 
-	QNetworkAccessManager* man = new QNetworkAccessManager(&app);
-	QObject::connect(man, SIGNAL(finished(QNetworkReply*)), &test, SLOT(finishedDownload(QNetworkReply*)));
-
-	QNetworkDiskCache *diskCache = new QNetworkDiskCache();
-	diskCache->setCacheDirectory("cache");
-	man->setCache(diskCache);
-
-	QNetworkRequest request(QUrl("http://mt1.google.com/vt/lyrs=m@128&x=1310&y=3167&z=13"));
-	request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
-	man->get(request);
+#ifdef Q_WS_MAEMO_5
+	map.setAttribute(Qt::WA_Maemo5AutoOrientation, true);
+	map.showFullScreen();
+#else
+	map.setFixedSize(800, 480);
+	map.show();
+#endif
 
 	return app.exec();
 }

@@ -1,10 +1,10 @@
+#include "tile.h"
 #include "googlemapwidget.h"
-#include <cstdio>
 
 GoogleMapWidget::GoogleMapWidget(QWidget *parent):
-	QGLWidget(parent)
+	QGLWidget(parent), tileCache("m@128"), center(Coordinate(37.743749,-122.416867), 17)
 {
-
+	connect(&tileCache, SIGNAL(tileUpdated(QString)), this, SLOT(tileUpdated(QString)));
 }
 
 void GoogleMapWidget::initializeGL()
@@ -50,8 +50,6 @@ void GoogleMapWidget::initializeGL()
 
 	renderer.enableAttributeArray("position");
 	renderer.enableAttributeArray("texture");
-
-	textureId = bindTexture(tile);
 }
 
 void GoogleMapWidget::resizeGL(int width, int height)
@@ -64,8 +62,8 @@ void GoogleMapWidget::resizeGL(int width, int height)
 	renderer.setUniformValue("size", width, height);
 
 		// Tile for each side + tiles on screen
-	gridWidth  = 1 + ((width  / Tile::SIZE) + 1) + 1;
-	gridHeight = 1 + ((height / Tile::SIZE) + 1) + 1;
+	gridWidth  = ((width  / Tile::SIZE) + 1) + 1;
+	gridHeight = ((height / Tile::SIZE) + 1) + 1;
 
 		// Clear all vertices
 	vbo.clear();
@@ -75,14 +73,17 @@ void GoogleMapWidget::resizeGL(int width, int height)
 	vbo.reserve((gridWidth * 4) * (gridHeight * 4));
 
 		// Generate the grid starting from outside the screen
-	for(int y=-1; y<gridHeight-1; ++y) {
-		for(int x=-1; x<gridWidth-1; ++x)
+	for(int y=0; y<gridHeight; ++y) {
+		for(int x=0; x<gridWidth; ++x)
 			vbo << generateTile(QVector2D(x, y));
 	}
 
 		// Set the generated VBO data
 	renderer.setAttributeArray("position", vbo.constData() + 0, sizeof(QVector2D) * 2);
 	renderer.setAttributeArray("texture",  vbo.constData() + 1, sizeof(QVector2D) * 2);
+
+		// Recenter screen
+	setCenter(center);
 }
 
 void GoogleMapWidget::paintGL()
@@ -90,10 +91,35 @@ void GoogleMapWidget::paintGL()
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for(int i=0; i<gridWidth*gridHeight; ++i) {
-		glBindTexture(GL_TEXTURE_2D, textureId);
-		glDrawArrays(GL_TRIANGLE_STRIP, i * 4, 4);
+	BitmapCoordinate tileIterator = center - QPoint(width() / 2, height() / 2);
+	for(int y=0; y<gridHeight; ++y) {
+		for(int x=0; x<gridWidth; ++x) {
+			GLint bindId = 0;
+			QString tileId = Tile(tileIterator).id();
+
+			if(boundTiles.contains(tileId))
+				bindId = boundTiles.value(tileId);
+			else if(!tileCache.isTileLoading(tileId))
+				tileCache.retrieveBitmap(tileId);
+
+			if(bindId != 0) {
+				glBindTexture(GL_TEXTURE_2D, bindId);
+				glDrawArrays(GL_TRIANGLE_STRIP, (x + (y * gridWidth)) * 4, 4);
+			}
+
+			tileIterator.rx() += Tile::SIZE;
+		}
+
+		tileIterator.ry() += Tile::SIZE;
+		tileIterator.rx() -= Tile::SIZE * gridWidth;
 	}
+}
+
+void GoogleMapWidget::tileUpdated(const QString &id)
+{
+	boundTiles.insert(id, bindTexture(tileCache.getBitmap(id), GL_TEXTURE_2D, GL_RGBA, QGLContext::InvertedYBindOption));
+
+	update();
 }
 
 void GoogleMapWidget::mousePressEvent(QMouseEvent* event)
@@ -103,12 +129,17 @@ void GoogleMapWidget::mousePressEvent(QMouseEvent* event)
 
 void GoogleMapWidget::mouseMoveEvent(QMouseEvent* event)
 {
-	translation += event->pos() - dragStart;
+	setCenter(center - (event->pos() - dragStart));
 	dragStart = event->pos();
+}
 
-	renderer.setUniformValue("translation", translation.x() % Tile::SIZE, translation.y() % Tile::SIZE, 0, 0);
+void GoogleMapWidget::setCenter(const BitmapCoordinate &bcoord)
+{
+	center = bcoord;
 
-	glDraw();
+	renderer.setUniformValue("translation", (-center.x() + (width() / 2)) % Tile::SIZE, (-center.y() + (height() / 2)) % Tile::SIZE, 0, 0);
+
+	update();
 }
 
 QVector<QVector2D > GoogleMapWidget::generateTile(const QVector2D &position)

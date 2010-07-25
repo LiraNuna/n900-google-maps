@@ -21,6 +21,10 @@ class BitmapCoordinate : public QPoint
 			return _zoom;
 		}
 
+		BitmapCoordinate operator+ (const QPoint &) const;
+
+		BitmapCoordinate operator- (const QPoint &) const;
+
 	protected:
 		int _zoom;
 };

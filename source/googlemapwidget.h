@@ -1,9 +1,10 @@
 #ifndef GOOGLEMAPWIDGET_H_
 #define GOOGLEMAPWIDGET_H_
 
-#include <QtCore>
 #include <QtOpenGL>
+
 #include "layer.h"
+#include "bitmapcoordinate.h"
 
 class GoogleMapWidget : public QGLWidget
 {
@@ -12,15 +13,19 @@ class GoogleMapWidget : public QGLWidget
 	public:
 		GoogleMapWidget(QWidget *parent = 0);
 
-		QImage tile;
+		void setCenter(const BitmapCoordinate &bcoord);
 
 	protected:
-		QPoint translation;
 		QPoint dragStart;
+		QPoint canvasSize;
 
+		Layer tileCache;
+		BitmapCoordinate center;
 		QGLShaderProgram renderer;
+		QHash<QString, int> boundTiles;
 
 		QVector<QVector2D > vbo;
+
 
 	protected slots:
 		void initializeGL();
@@ -28,6 +33,8 @@ class GoogleMapWidget : public QGLWidget
 		void resizeGL(int width, int height);
 
 		void paintGL();
+
+		void tileUpdated(const QString &id);
 
 		void mousePressEvent(QMouseEvent* );
 

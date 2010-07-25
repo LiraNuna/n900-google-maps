@@ -33,3 +33,17 @@ int BitmapCoordinate::origin() const
 {
 	return (Tile::SIZE / 2) << zoom();
 }
+
+BitmapCoordinate BitmapCoordinate::operator+ (const QPoint &other) const
+{
+	QPoint result = QPoint(x() + other.x(), y() + other.y());
+
+	return BitmapCoordinate(result.x(), result.y(), zoom());
+}
+
+BitmapCoordinate BitmapCoordinate::operator- (const QPoint &other) const
+{
+	QPoint result = QPoint(x() - other.x(), y() - other.y());
+
+	return BitmapCoordinate(result.x(), result.y(), zoom());
+}

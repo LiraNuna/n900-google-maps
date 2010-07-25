@@ -37,7 +37,7 @@ void Layer::downloadFinished(QNetworkReply* reply)
 	pendingTiles.remove(url);
 
 		// Notify listeners that a tile had been updated.
-	emit tileUpdated(Tile::fromId(tileId));
+	emit tileUpdated(tileId);
 }
 
 QImage Layer::getBitmap(const QString &tileId)

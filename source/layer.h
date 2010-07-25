@@ -36,7 +36,7 @@ class Layer : public QObject
 		void downloadFinished(QNetworkReply* reply);
 
 	signals:
-		void tileUpdated(const Tile &);
+		void tileUpdated(const QString &);
 };
 
 #endif
