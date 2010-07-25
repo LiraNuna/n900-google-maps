@@ -75,7 +75,7 @@ void GoogleMapWidget::resizeGL(int width, int height)
 	vbo.reserve((gridWidth * 4) * (gridHeight * 4));
 
 		// Generate the grid starting from outside the screen
-	for(int y=-1; y<gridWidth-1; ++y) {
+	for(int y=-1; y<gridHeight-1; ++y) {
 		for(int x=-1; x<gridWidth-1; ++x)
 			vbo << generateTile(QVector2D(x, y));
 	}
