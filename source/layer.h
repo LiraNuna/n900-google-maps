@@ -13,7 +13,13 @@ class Layer : public QObject
 	public:
 		Layer(const QString &name, bool realTime = false);
 
+		bool isTileLoaded(const QString &id);
+
+		bool isTileLoading(const QString &id);
+
 		QImage getBitmap(const QString &tileId);
+
+		void retrieveBitmap(const QString &tileId);
 
 	protected:
 		void fillTilesBitmap();

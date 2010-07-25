@@ -43,10 +43,18 @@ void Layer::downloadFinished(QNetworkReply* reply)
 QImage Layer::getBitmap(const QString &tileId)
 {
 		// Image had been cached, return it
-	if(tiles.contains(tileId))
+	if(isTileLoaded(tileId))
 		return tiles[tileId];
 
 		// Image had not yet been loaded, send a request
+	retrieveBitmap(tileId);
+
+		// Send a blank image (will return as QImage.isNull() == true)
+	return QImage();
+}
+
+void Layer::retrieveBitmap(const QString &tileId)
+{
 	QUrl tileUrl = Tile::fromId(tileId).url();
 	QNetworkRequest request = QNetworkRequest(tileUrl);
 
@@ -59,7 +67,14 @@ QImage Layer::getBitmap(const QString &tileId)
 
 		// Perform the request. If it's cached, the cached file will be loaded.
 	network->get(request);
+}
 
-		// Send a blank image (will return as QImage.isNull() == true)
-	return QImage();
+bool Layer::isTileLoaded(const QString &id)
+{
+	return tiles.contains(id);
+}
+
+bool Layer::isTileLoading(const QString &id)
+{
+	return pendingTiles.values().contains(id);
 }
