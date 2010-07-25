@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <QtOpenGL>
+#include "layer.h"
 
 class GoogleMapWidget : public QGLWidget
 {
@@ -13,8 +14,13 @@ class GoogleMapWidget : public QGLWidget
 
 		QImage tile;
 
+	protected:
 		QPoint translation;
 		QPoint dragStart;
+
+		QList<Layer> layerList;
+
+		QGLShaderProgram renderer;
 
 	protected slots:
 		void initializeGL();
@@ -29,7 +35,6 @@ class GoogleMapWidget : public QGLWidget
 
 	private:
 		GLuint textureId;
-		GLuint shaderProgram;
 };
 
 #endif
