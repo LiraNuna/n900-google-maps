@@ -117,7 +117,7 @@ void GoogleMapWidget::paintGL()
 
 void GoogleMapWidget::tileUpdated(const QString &id)
 {
-	boundTiles.insert(id, bindTexture(tileCache.getBitmap(id), GL_TEXTURE_2D, GL_RGBA, QGLContext::InvertedYBindOption));
+	boundTiles.insert(id, bindTexture(tileCache.getBitmap(id), GL_TEXTURE_2D, GL_RGBA, QGLContext::NoBindOption));
 
 	update();
 }
@@ -147,8 +147,8 @@ QVector<QVector2D > GoogleMapWidget::generateTile(const QVector2D &position)
 	const QVector2D pixelPosition = position * Tile::SIZE;
 
 	return QVector<QVector2D >() <<
-		QVector2D(pixelPosition.x(), 			  pixelPosition.y() + Tile::SIZE) << QVector2D(0, 0) <<
-		QVector2D(pixelPosition.x(), 			  pixelPosition.y()				) << QVector2D(0, 1) <<
-		QVector2D(pixelPosition.x() + Tile::SIZE, pixelPosition.y() + Tile::SIZE) << QVector2D(1, 0) <<
-		QVector2D(pixelPosition.x() + Tile::SIZE, pixelPosition.y()				) << QVector2D(1, 1);
+		QVector2D(pixelPosition.x(), 			  pixelPosition.y() + Tile::SIZE) << QVector2D(0, 1) <<
+		QVector2D(pixelPosition.x(), 			  pixelPosition.y()				) << QVector2D(0, 0) <<
+		QVector2D(pixelPosition.x() + Tile::SIZE, pixelPosition.y() + Tile::SIZE) << QVector2D(1, 1) <<
+		QVector2D(pixelPosition.x() + Tile::SIZE, pixelPosition.y()				) << QVector2D(1, 0);
 }
