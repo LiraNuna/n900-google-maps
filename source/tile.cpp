@@ -32,6 +32,7 @@ Tile Tile::fromId(const QString &id)
 QString Tile::id() const
 {
 	QString id;
+	id.reserve(zoom());
 
 	QPoint copy = idx;
 	for(int i=0; i<idx.zoom(); ++i) {
