@@ -1,11 +1,5 @@
 #include "layer.h"
 
-	// This serves both allTiles indirectly as well as pendingTiles
-uint qHash(const QUrl &url)
-{
-	return qHash(url.toString());
-}
-
 Layer::Layer(const QString &name, bool realTime):
 	QObject(NULL),
 	name(name), realTime(realTime)
